@@ -12,11 +12,15 @@ function driver(input_directory, output_directory)
     end
 
     % Load model.
+    disp('Loading sepsis model...')
     model = load_sepsis_model();
 
     % Iterate over files.
+    disp('Predicting sepsis labels...')
     num_files = length(files);
     for i = 1:num_files
+        disp(['    ', num2str(i), '/', num2str(num_files), '...'])
+
         % Load data.
         input_file = fullfile(input_directory, files{i});
         data = load_challenge_data(input_file);
@@ -36,6 +40,8 @@ function driver(input_directory, output_directory)
         output_file = fullfile(output_directory, files{i});
         save_challenge_predictions(output_file, scores, labels);
     end
+
+    disp('Done.')
 end
 
 function data = load_challenge_data(file)
